@@ -4,7 +4,7 @@ object Main {
         val map: Map[(City, City), Distance] =
             CityDistanceReader.getMap(dataPath)
         val cites: List[City] = CityDistanceReader.getCities(dataPath)
-        val fitness = Utils.fitnessFun(map)
+        val fitness = Utils.fitnessOperator(map)
 
         var s = Utils.randomSolution(cites)
         val mutProb = .1

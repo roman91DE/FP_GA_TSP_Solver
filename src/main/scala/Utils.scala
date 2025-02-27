@@ -3,7 +3,7 @@ import scala.util.Random
 object Utils {
     def randomSolution(cities: List[City]): Solution = Random.shuffle(cities)
 
-    def fitnessFun(map: Map[(City, City), Distance])(
+    def fitnessOperator(map: Map[(City, City), Distance])(
         solution: Solution
     ): Score =
         val roundTrip = (solution :+ solution.head)
