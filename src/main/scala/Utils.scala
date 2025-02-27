@@ -16,7 +16,7 @@ object Utils {
             }
             .sum
 
-    def mutationOperator(mutProb: Double)(s: Solution): Solution = {
+    def swapMutationOperator(mutProb: Double)(s: Solution): Solution = {
         s.map { gene =>
             {
                 if Random.between(0.0, 1.0) > mutProb then gene
@@ -26,6 +26,18 @@ object Utils {
 
     }
 
-    def crossoverOperator(coProb: Double)(a: Solution, b: Solution): Solution = ???
+    def orderedCrossoverOperator(coProb: Double)(a: Solution, b: Solution): Solution = {
+
+
+    if Random.between(0.0, 1.0) > coProb then a else
+    {val pivot = Random.between(1, a.length)
+    val left = a.slice(0, pivot)
+    val right = b.filterNot(left.contains(_))
+    left ::: right
+    }
+
+    
+    
+}
 
 }
