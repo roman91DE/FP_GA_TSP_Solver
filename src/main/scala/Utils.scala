@@ -26,15 +26,17 @@ object Utils {
 
     }
 
-    def orderedCrossoverOperator(coProb: Double)(a: Solution, b: Solution): Solution = {
+   
 
-
-    if Random.between(0.0, 1.0) > coProb then a else
-    {val pivot = Random.between(1, a.length)
-    val left = a.slice(0, pivot)
-    val right = b.filterNot(left.contains(_))
-    left ::: right
-    }
+def orderedCrossoverOperator(coProb: Double)(a: List[String], b: List[String]): List[String] = {
+  if (Random.nextDouble() > coProb) a
+  else {
+    val pivot = Random.between(1, a.length)
+    val left = a.slice(0, pivot).toSet // Convert to Set for O(1) lookups
+    val right = b.filterNot(left) // More efficient filtering
+    a.take(pivot) ::: right
+  }
+}
 
     
     
