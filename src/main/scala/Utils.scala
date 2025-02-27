@@ -1,6 +1,6 @@
 import scala.util.Random
 
-object EaUtils {
+object Utils {
     def randomSolution(cities: List[City]): Solution = Random.shuffle(cities)
 
     def fitnessFun(map: Map[(City, City), Distance])(
@@ -16,7 +16,7 @@ object EaUtils {
             }
             .sum
 
-    def mutate(mutProb: Double)(s: Solution): Solution = {
+    def mutationOperator(mutProb: Double)(s: Solution): Solution = {
         s.map { gene =>
             {
                 if Random.between(0.0, 1.0) > mutProb then gene
@@ -25,5 +25,7 @@ object EaUtils {
         } 
 
     }
+
+    def crossoverOperator(coProb: Double)(a: Solution, b: Solution): Solution = ???
 
 }
