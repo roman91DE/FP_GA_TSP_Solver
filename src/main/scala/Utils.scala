@@ -2,44 +2,17 @@ import scala.util.Random
 
 object Utils {
     def randomSolution(cities: List[City]): Solution = Random.shuffle(cities)
+    def initPop(cities: List[City])(n: Int): Population =
+        (0 until 100).toList.map(_ => randomSolution(cities))
+    def isValid(solution: Solution): Boolean =
+        solution.distinct.length == solution.length
 
-    def fitnessOperator(map: Map[(City, City), Distance])(
-        solution: Solution
-    ): Score =
-        val roundTrip = (solution :+ solution.head)
-        roundTrip
-            .sliding(2)
-            .map {
-                case List(cur, next) =>
-                    map.getOrElse((cur, next), (Int.MaxValue))
-                case _ => Int.MaxValue
-            }
-            .sum
+    def mapFit(f: Solution => Score)(pop: Population): MappedPopulation =
+        pop.map(s => (s, f(s)))
 
-    def swapMutationOperator(mutProb: Double)(s: Solution): Solution = {
-        s.map { gene =>
-            {
-                if Random.between(0.0, 1.0) > mutProb then gene
-                else s(Random.between(0, s.length))
-            }
-        } 
-
-    }
-
-   
-
-def orderedCrossoverOperator(coProb: Double)(a: List[String], b: List[String]): List[String] = {
-  if (Random.nextDouble() > coProb) a
-  else {
-    val pivot = Random.between(1, a.length)
-    val left = a.slice(0, pivot).toSet // Convert to Set for O(1) lookups
-    val right = b.filterNot(left) // More efficient filtering
-    a.take(pivot) ::: right
-  }
-}
-
-    
-    
-}
+    def populationAvgFitness(mpop: MappedPopulation): Score =
+        mpop.map(x => x._2).reduce((a, b) => a + b) / mpop.length
+    def populationEliteFitness(mpop: MappedPopulation): Score =
+        mpop.maxBy(_._2)._2
 
 }
